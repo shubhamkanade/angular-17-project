@@ -1,0 +1,106 @@
+<div class="container mt-4">
+  <h2>Product List</h2>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <form class="row g-3" (ngSubmit)="searchProducts()">
+        <div class="col-md-4">
+          <label for="searchName" class="form-label">Product Name</label>
+          <input type="text" class="form-control" id="searchName" [(ngModel)]="productName"
+            name="searchName">
+        </div>
+        <div class="col-md-4">
+          <label for="searchCategory" class="form-label">Product Category</label>
+          <select class="form-control" id="searchCategory" [(ngModel)]="productCategory"
+            name="searchCategory">
+            <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="searchCostRange" class="form-label">Standard Cost</label>
+          <div class="input-group">
+            <input type="number" class="form-control" id="searchCostMin" [(ngModel)]="minCost"
+              name="searchCostMin" placeholder="Standard cost Min">
+            <span class="input-group-text">-</span>
+            <input type="number" class="form-control" id="searchCostMax" [(ngModel)]="maxCost"
+              name="searchCostMax" placeholder="Standard Cost Max">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="searchCostRange" class="form-label">List Cost</label>
+          <div class="input-group">
+            <input type="number" class="form-control" id="searchCostMin" [(ngModel)]="minCost"
+              name="searchCostMin" placeholder="list cost Min">
+            <span class="input-group-text">-</span>
+            <input type="number" class="form-control" id="searchCostMax" [(ngModel)]="maxCost"
+              name="searchCostMax" placeholder="list Cost Max">
+          </div>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="button" class="btn btn-primary mx-2" (click)="AddProduct()">Add Product</button>
+
+        </div>
+        <div class="col-12">
+          <button type="button" class="btn btn-secondary" (click)="clearSearch()">Clear</button>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th >Product Number </th>
+            <th (click)="sortProducts('productName')">Product Name <i class="fa fa-arrow-up fa-1x" aria-hidden="true" (click)="sortDirection = 'asc'"></i>&nbsp;<i class="fa fa-arrow-down fa-1x" aria-hidden="true"(click)="sortDirection = 'desc'"></i> </th>
+            <th (click)="sortProducts('category')">Category<i class="fa fa-arrow-up fa-1x" aria-hidden="true" (click)="sortDirection = 'asc'"></i>&nbsp;<i class="fa fa-arrow-down fa-1x" aria-hidden="true"(click)="sortDirection = 'desc'"></i></th>
+            <th (click)="sortProducts('standardCost')">Standard Cost <i class="fa fa-arrow-up fa-1x" aria-hidden="true" (click)="sortDirection = 'asc'"> </i>&nbsp;<i class="fa fa-arrow-down fa-1x" aria-hidden="true" (click)="sortDirection = 'desc'"></i> </th>
+            <th (click)="sortProducts('listCost')">List Cost <i class="fa fa-arrow-up fa-1x" aria-hidden="true" (click)="sortDirection = 'asc'"> </i>&nbsp;<i class="fa fa-arrow-down fa-1x" aria-hidden="true" (click)="sortDirection = 'desc'"></i> </th>
+            <th>Product Photo</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <td>{{ product.productNumber }}</td>
+            <td>{{ product.productName }}</td>
+            <td>{{ product.categoryName }}</td>
+            <td>{{ product.standardCost}}</td>
+            <td>{{ product.listCost }}</td>
+            <td>
+              <img *ngIf="product.productPhoto" [src]="'data:image/jpeg;base64,' + product.productPhoto" alt="Product Image" class="img-thumbnail"
+                style="width: 50px; height: 50px;">
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary mx-2" (click)="editProduct(product.productId)">Edit</button>
+              <button class="btn btn-sm btn-info" (click)="viewProduct(product.productId)">Details</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination justify-content-center mt-4">
+        <button class="btn btn-outline-primary" [disabled]="pageNumber === 1" (click)="onPageChanged(pageNumber - 1)">
+          Previous
+        </button>
+        <span class="mx-3">Page {{ pageNumber }}</span>
+
+        <button class="btn btn-outline-primary" [disabled]="pageNumber >= totalItems"
+          (click)="onPageChanged(pageNumber + 1)">
+          Next
+        </button>
+          <label for="pageSizeSelect" style="margin-left: 10px;"> Number of Products:</label>
+        <div class="col-md-1">
+          <select class="form-control" id="pageSizeSelect" [(ngModel)]="pageSize" (change)="onPageSizeChanged()">
+            <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+          </select>
+          </div>
+      </div>
+
+    </div>
+  </div>
+</div>

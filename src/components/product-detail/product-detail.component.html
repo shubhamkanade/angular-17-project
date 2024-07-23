@@ -1,0 +1,34 @@
+<p>product-detail works!</p>
+<div class="container mt-5">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Product Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Reviews</th>
+        <th>Standard Cost</th>
+        <th>List Cost</th>
+        <th>Product Photo</th>
+        <th>Location</th>
+        <th>Shelf</th>
+        <th>Total Quantity</th>
+      </tr>
+    </thead>
+    <tbody class="table-bordered">
+      <td>{{ productDetail.productName }}</td>
+      <td>{{ productDetail.category }}</td>
+      <td>{{ productDetail.description }}</td>
+      <td>{{ productDetail.reviews }}</td>
+      <td>{{ productDetail.standardCost }}</td>
+      <td>{{ productDetail.listCost }}</td>
+      <td>
+        <img *ngIf="productDetail.productPhoto" [src]="getPhotoUrl(productDetail.productPhoto)"
+          alt="ProducDetail Photo" class="img-thumbnail" width="100">
+      </td>
+      <td>{{ productDetail.location }}</td>
+      <td>{{ productDetail.shelf }}</td>
+      <td>{{ productDetail.totalQuantity }}</td>
+    </tbody>
+  </table>
+</div>

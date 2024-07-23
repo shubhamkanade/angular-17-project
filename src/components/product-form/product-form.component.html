@@ -1,0 +1,91 @@
+<div class="p-3 d-flex justify-content-center align-items-center flex-column">
+  <h2>{{ productId ? 'Edit Product' : 'Create Product' }}</h2>
+  <form [formGroup]="productForm" class="border p-5 w-50">
+      <div class="mb-3">
+          <label for="productName" class="form-label">Product Name</label>
+          <input class="form-control" id="productName" formControlName="productName" />
+          <div *ngIf="productForm.controls['productName'].invalid" class="text-danger">
+              Product Name is required
+          </div>
+      </div>
+
+      <div class="mb-3">
+          <label for="productNumber" class="form-label">Product Number</label>
+          <input class="form-control" id="productNumber" formControlName="productNumber" />
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" for="categoryId">Category</label>
+          <select class="form-control" id="categoryId" formControlName="categoryId" (change)="handleGetProductSubCategory($event)">
+            <option value="">Select Category</option>
+            <option *ngFor="let category of categories" [value]="category.productCategoryId
+            ">{{ category.name }}</option>
+          </select>
+          <div *ngIf="productForm.controls['categoryId'].invalid && productForm.controls['categoryId'].touched" class="text-danger">
+              Category is required
+          </div>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" for="productModelId">Product Model</label>
+          <select class="form-control" id="productModelId" formControlName="productModelId">
+            <option value="">Select product model</option>
+            <option *ngFor="let productmodel of productModels" [value]="productmodel.productModelId
+            ">{{ productmodel.name }}</option>
+          </select>
+          <div *ngIf="productForm.controls['productModelId'].invalid && productForm.controls['productModelId'].touched" class="text-danger">
+              model is required
+          </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="subCategoryId">Sub Category</label>
+        <select class="form-control" id="subCategoryId" formControlName="subCategoryId">
+          <option value="">Select Category</option>
+          <option *ngFor="let category of subCategories" [value]="category.productSubcategoryId
+          ">{{ category.name }}</option>
+        </select>
+        <div *ngIf="productForm.controls['subCategoryId'].invalid && productForm.controls['subCategoryId'].touched" class="text-danger">
+            sub Category is required
+        </div>
+    </div>
+
+      <div class="mb-3">
+          <label class="form-label" for="description">Description</label>
+          <textarea class="form-control" id="description" formControlName="description"></textarea>
+          <div *ngIf="productForm.controls['description'].invalid && productForm.controls['description'].touched" class="text-danger">
+              Description is required
+          </div>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" for="standardCost">Standard Cost</label>
+          <input class="form-control" id="standardCost" type="number" formControlName="standardCost" />
+          <div *ngIf="productForm.controls['standardCost'].invalid && productForm.controls['standardCost'].touched" class="text-danger">
+              Standard Cost is required and must be a positive number
+          </div>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" for="listCost">List Cost</label>
+          <input class="form-control" id="listCost" type="number" formControlName="listCost" />
+          <div *ngIf="productForm.controls['listCost'].invalid && productForm.controls['listCost'].touched" class="text-danger">
+              List Cost is required and must be a positive number
+          </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="productPhoto">Product Photo</label>
+        <input class="form-control" id="productPhoto" type="file" (change)="onFileSelected($event)" formControlName="productPhoto" />
+        <div *ngIf="productForm.controls['productPhoto'].invalid && productForm.controls['productPhoto'].touched" class="text-danger">
+          Product Photo is required
+        </div>
+        <div *ngIf="imageUrl">
+          <img [src]="imageUrl" alt="Product Photo" class="img-thumbnail mt-2" width="200" />
+          <p>{{ imageName }}</p>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" (click)="save()">{{ productId ? 'Update' : 'Create' }}</button>
+  </form>
+</div>
